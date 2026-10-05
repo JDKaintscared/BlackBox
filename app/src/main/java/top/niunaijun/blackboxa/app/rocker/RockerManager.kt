@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.util.Log
 import android.view.Gravity
+import android.os.Bundle
 import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import com.imuxuan.floatingview.FloatingMagnetView
@@ -55,6 +56,10 @@ object RockerManager {
             override fun onActivityStopped(activity: Activity) {
                 super.onActivityStopped(activity)
                 FloatingView.get().detach(activity)
+            }
+
+            override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
+                super.onActivitySaveInstanceState(activity, outState)
             }
 
         })

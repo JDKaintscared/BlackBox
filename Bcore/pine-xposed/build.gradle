@@ -1,9 +1,10 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
-    defaultConfig {
+    
+    namespace 'top.canyie.pine.xposed'
+compileSdk rootProject.ext.compileSdkVersion
+        defaultConfig {
         minSdkVersion 21
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

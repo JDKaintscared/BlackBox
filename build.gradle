@@ -1,42 +1,36 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_version = "1.4.31"
+    ext.kotlin_version = "2.0.21"
     repositories {
-        jcenter()
-        mavenCentral()
         google()
+        mavenCentral()
         maven { url 'https://jitpack.io' }
-//        maven { url 'https://dl.bintray.com/umsdk/release' }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.0.1"
+        classpath "com.android.tools.build:gradle:8.9.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
 allprojects {
     repositories {
-        jcenter()
-        mavenCentral()
         google()
+        mavenCentral()
         maven { url 'https://jitpack.io' }
-//        maven { url 'https://dl.bintray.com/umsdk/release' }
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+tasks.register('clean', Delete) {
+    delete rootProject.layout.buildDirectory
 }
 
-
 ext {
-    compileSdkVersion = 30
-    buildToolsVersion = "28.0.2"
-    targetSdkVersion = 30
-
-    versionName = '1.0'
-    versionCode = 1
-
+    compileSdkVersion = 36
+    // BlackBox relies on a userspace virtualization/hidden-API compatibility
+    // layer. Keep the host app target conservative while compiling against API 36.
+    targetSdkVersion = 28
+    versionName = '3.0.0-android16'
+    versionCode = 300
     xVersion = '1.1.0'
     blackReflection = '1.1.2'
+    ndkVersion = '28.0.13004108'
 }

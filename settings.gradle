@@ -8,3 +8,6 @@ include ':Bcore:pine-xposed-res'
 include ':android-mirror'
 
 rootProject.name = "BlackBox"
+
+include ':third_party:stateview'
+include ':third_party:free_reflection'

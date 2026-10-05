@@ -3,9 +3,10 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
-
+    
+    namespace 'top.niunaijun.jnihook'
+compileSdk rootProject.ext.compileSdkVersion
+    
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion rootProject.ext.targetSdkVersion
@@ -27,8 +28,8 @@ android {
         javaMaxHeapSize "4g"
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     aaptOptions {
         cruncherEnabled = false
