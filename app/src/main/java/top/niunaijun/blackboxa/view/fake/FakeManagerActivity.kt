@@ -22,17 +22,13 @@ import top.niunaijun.blackboxa.util.inflate
 import top.niunaijun.blackboxa.util.toast
 import top.niunaijun.blackboxa.view.base.BaseActivity
 
-/**
- *
- * @Author: BlackBoxing
- * @CreateDate: 2022/3/14
- */
+
 class FakeManagerActivity : BaseActivity() {
     val TAG: String = "FakeManagerActivity"
 
     private val viewBinding: ActivityListBinding by inflate()
 
-    //    private lateinit var mAdapter: ListAdapter
+    
     private lateinit var mAdapter: RVAdapter<FakeLocationBean>
 
     private lateinit var viewModel: FakeLocationViewModel
@@ -133,8 +129,8 @@ class FakeManagerActivity : BaseActivity() {
                     val longitude = data.getDoubleExtra("longitude", 0.0)
                     val pkg = data.getStringExtra("pkg")
 
-                    viewModel.setPattern(currentUserID(), pkg ?: "", BLocationManager.OWN_MODE)
-                    viewModel.setLocation(currentUserID(), pkg ?: "", BLocation(latitude, longitude))
+                    viewModel.setPattern(currentUserID(), pkg.toString(), BLocationManager.OWN_MODE)
+                    viewModel.setLocation(currentUserID(), pkg.toString(), BLocation(latitude, longitude))
 
                     toast(getString(R.string.set_location,latitude.toString(), longitude.toString()))
 

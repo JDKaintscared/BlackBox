@@ -1,44 +1,45 @@
-# BlackBox Android 16 Compatibility Update
+# BlackBox Android 16 Runtime Update
 
-## What changed in this fork
+## Root cause fixed
 
-- Migrated the build to **Android Gradle Plugin 8.9.1**, Gradle 8.11.1, JDK 21, compile SDK **API 36**, and NDK 28.
-- Added explicit AGP 8 namespace/build configuration and enabled AIDL generation where the mirror module still needs it.
-- Replaced abandoned Maven/JitPack UI dependencies with vendored source/local AARs under `third_party/` and `app/libs/`.
-- Vendored FreeReflection source so dependency resolution does not rely on the unavailable `me.weishu:free_reflection:3.0.1` artifact.
-- Generated and checked in Bcore IPC Java sources using the legacy-compatible AIDL compiler; this avoids the AGP 8 cross-module AIDL ordering failure.
-- Restricted the published build to **arm64-v8a**, matching the requested 64-bit virtual-space target.
-- Updated Kotlin/AndroidX signatures and native C++ headers required by current JDK/Kotlin/NDK toolchains.
+The previous build only migrated the Gradle/SDK toolchain. It retained the old Pine ART hook engine, which was not ported beyond the Android 11-era ART implementation. On Android 16 this caused every virtual process to fail before the guest application's `Application.onCreate()`, producing the loading loop or return to the BlackBox lobby.
+
+## Runtime migration
+
+This update removes the old Pine-based runtime and ports the maintained BlackBox runtime architecture:
+
+- Dobby native inline hooks for the arm64-v8a and armeabi-v7a builds;
+- JniHook ART/JNI method registration backend with runtime-derived ArtMethod offsets;
+- Android 16-safe native initialization and hidden-API handling;
+- safer process/application bootstrap and fallback handling;
+- Android 15/16 service compatibility guards and crash prevention;
+- flexible page-size native build flags.
+
+The old `Bcore/pine-core`, `Bcore/pine-xposed`, and `Bcore/pine-xposed-res` modules are no longer part of the runtime.
 
 ## Build verification
 
-The following command completes successfully in the repository:
+The following completed successfully in the sandbox:
 
-```bash
-./gradlew :app:assembleBlackBox64Debug --no-daemon
+```text
+./gradlew :Bcore:assembleDebug
+./gradlew :app:assembleDebug
 ```
 
-The resulting artifact is an **unsigned debug APK**. It is suitable for installation with developer/test settings enabled, but it is not a production-signed release.
+Build settings:
 
-## Important compatibility boundary
+- compile SDK: 35
+- minimum SDK: 21
+- native ABIs: arm64-v8a and armeabi-v7a
+- NDK: 29.0.13846066
+- flexible page-size native build enabled
 
-This is a **toolchain and build-compatibility update**, not a claim that every BlackBox virtualized app works on every Android 15/16 device. The original engine relies on hidden Android framework interfaces, native ART/Pine hooks, and a deliberately low target SDK (28). Android 16 can still restrict or change those internals by device/ROM. Runtime compatibility must be validated on physical API 35/API 36 arm64 devices with representative apps.
+## Android 16 status
 
-A production Android 16 release still needs device testing for:
+This release is an **Android 16 arm64 preview**. The runtime backend now uses the maintained Pine-free Dobby/JniHook implementation rather than the unsupported Pine engine. The APK was build-verified, but physical-device validation on the user's Infinix GT 30 Pro still requires installing this new APK and launching a test guest app.
 
-- app install/launch and process restart;
-- storage, notifications, foreground services, camera/microphone and location;
-- Google Play services-dependent apps;
-- Xposed/module loading;
-- 16 KB page-size devices and OEM ROMs;
-- background execution, package visibility, and permission prompts.
+If a guest app still fails, collect the BlackBox crash/log output from the new build before changing permissions or reinstalling guest APKs; the failure will then be in a specific compatibility layer rather than the old universal Pine initialization failure.
 
-## Research sources
+## Release artifact
 
-- [Android 16 behavior changes](https://developer.android.com/about/versions/16/behavior-changes-all)
-- [Android 16 behavior changes for apps targeting API 36](https://developer.android.com/about/versions/16/behavior-changes-16)
-- [Set up the Android 16 SDK](https://developer.android.com/about/versions/16/setup-sdk)
-- [Android 16 KB page-size guidance](https://developer.android.com/guide/practices/page-sizes)
-- [Non-SDK interface restrictions](https://developer.android.com/guide/app-compatibility/restrictions-non-sdk-interfaces)
-- [FreeReflection source](https://github.com/tiann/FreeReflection)
-- [Upstream BlackBox project](https://github.com/FBlackBox/BlackBox)
+Use the `arm64-v8a` APK for modern 64-bit phones. The universal APK contains both supported ABIs but is larger.
