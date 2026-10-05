@@ -66,8 +66,11 @@ class MainActivity : LoadingActivity() {
             
             checkStoragePermission()
 
-            
-            checkVpnPermission()
+            // VPN mode is optional and disabled by default. Do not trigger the
+            // system VPN confirmation dialog during ordinary BlackBox startup.
+            if (AppManager.mBlackBoxLoader.useVpnNetwork()) {
+                checkVpnPermission()
+            }
 
             try {
                 BlackBoxCore.get().onAfterMainActivityOnCreate(this)
