@@ -21,6 +21,14 @@
                 app:key="daemon_enable"
                 app:title="@string/daemon_enable" />
 
+        <ListPreference
+                app:key="uiRefreshRate"
+                app:title="@string/ui_refresh_rate"
+                app:summary="@string/ui_refresh_rate_summary"
+                app:entries="@array/ui_refresh_rate_entries"
+                app:entryValues="@array/ui_refresh_rate_values"
+                app:defaultValue="device" />
+
         <SwitchPreferenceCompat
                 app:key="gaming_mode"
                 app:title="@string/gaming_mode"

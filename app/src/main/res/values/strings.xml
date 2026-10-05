@@ -69,4 +69,6 @@
     <string name="no_gms">Currently, there is no Google service environment on mobile phones.</string>
     <string name="gaming_mode">Gaming Mode</string>
     <string name="gaming_mode_summary">Prioritize virtual game processes and reduce nonessential overhead. Restart BlackBox after changing.</string>
+    <string name="ui_refresh_rate">UI Refresh Rate</string>
+    <string name="ui_refresh_rate_summary">Device default follows the phone display; fixed rates are requested when supported. Restart BlackBox after changing.</string>
 </resources>

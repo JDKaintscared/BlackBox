@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="ui_refresh_rate_entries">
+        <item>Device default (recommended)</item>
+        <item>60 FPS</item>
+        <item>90 FPS</item>
+        <item>120 FPS</item>
+    </string-array>
+    <string-array name="ui_refresh_rate_values">
+        <item>device</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+    </string-array>
+</resources>
