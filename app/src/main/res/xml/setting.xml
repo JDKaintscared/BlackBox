@@ -22,6 +22,11 @@
                 app:title="@string/daemon_enable" />
 
         <SwitchPreferenceCompat
+                app:key="gaming_mode"
+                app:title="@string/gaming_mode"
+                app:summary="@string/gaming_mode_summary" />
+
+        <SwitchPreferenceCompat
                 app:key="use_vpn_network"
                 app:title="@string/use_vpn_network"
                 app:summary="@string/use_vpn_network_summary" />

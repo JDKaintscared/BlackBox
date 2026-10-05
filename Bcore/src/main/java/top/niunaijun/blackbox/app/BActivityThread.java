@@ -26,6 +26,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Looper;
+import android.os.Process;
 import android.os.RemoteException;
 import android.os.StrictMode;
 import android.text.TextUtils;
@@ -358,6 +359,17 @@ public class BActivityThread extends IBActivityThread.Stub {
     public synchronized void handleBindApplication(String packageName, String processName) {
         if (isInit())
             return;
+        try {
+            if (BlackBoxCore.get().isGamingMode()) {
+                // Give the guest main thread display-level scheduling priority.
+                // This is intentionally limited to the virtual guest process.
+                // Android's display priority is -4; use the value directly because
+                // THREAD_PRIORITY_DISPLAY is not exposed by every android.jar.
+                Process.setThreadPriority(-4);
+                Slog.i(TAG, "Gaming Mode enabled for " + packageName);
+            }
+        } catch (Throwable ignored) {
+        }
         try {
             CrashHandler.create();
         } catch (Throwable ignored) {

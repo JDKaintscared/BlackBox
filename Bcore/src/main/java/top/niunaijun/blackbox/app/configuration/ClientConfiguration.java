@@ -30,6 +30,11 @@ public abstract class ClientConfiguration {
         return false;
     }
 
+    /** Enables conservative performance tuning for the virtual guest process. */
+    public boolean isGamingMode() {
+        return false;
+    }
+
     
     public boolean requestInstallPackage(File file, int userId) {
         return false;

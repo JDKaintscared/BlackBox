@@ -24,6 +24,7 @@ class BlackBoxLoader {
     private var mUseVpnNetwork by AppSharedPreferenceDelegate(App.getContext(), false)
 
     private var mDisableFlagSecure by AppSharedPreferenceDelegate(App.getContext(), false)
+    private var mGamingMode by AppSharedPreferenceDelegate(App.getContext(), false)
 
     fun hideRoot(): Boolean {
         return try {
@@ -56,6 +57,19 @@ class BlackBoxLoader {
             this.mDisableFlagSecure = disable
         } catch (e: Exception) {
             Log.e(TAG, "Error setting disableFlagSecure: ${e.message}")
+        }
+    }
+
+    fun gamingMode(): Boolean = try { mGamingMode } catch (e: Exception) {
+        Log.e(TAG, "Error getting gamingMode: ${e.message}")
+        false
+    }
+
+    fun invalidGamingMode(enable: Boolean) {
+        try {
+            mGamingMode = enable
+        } catch (e: Exception) {
+            Log.e(TAG, "Error setting gamingMode: ${e.message}")
         }
     }
 
@@ -258,6 +272,15 @@ class BlackBoxLoader {
                                         mUseVpnNetwork
                                     } catch (e: Exception) {
                                         Log.e(TAG, "Error checking useVpnNetwork: ${e.message}")
+                                        false
+                                    }
+                                }
+
+                                override fun isGamingMode(): Boolean {
+                                    return try {
+                                        mGamingMode
+                                    } catch (e: Exception) {
+                                        Log.e(TAG, "Error checking gamingMode: ${e.message}")
                                         false
                                     }
                                 }

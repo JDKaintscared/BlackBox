@@ -1265,6 +1265,10 @@ public class BlackBoxCore extends ClientConfiguration {
         return mClientConfiguration.isDisableFlagSecure();
     }
 
+    public boolean isGamingMode() {
+        return mClientConfiguration != null && mClientConfiguration.isGamingMode();
+    }
+
 
 
     @Override

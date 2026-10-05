@@ -31,6 +31,12 @@ class SettingFragment : PreferenceFragmentCompat() {
         }
 
         invalidHideState {
+            val gamingPreference: Preference = (findPreference("gaming_mode")!!)
+            gamingPreference.setDefaultValue(AppManager.mBlackBoxLoader.gamingMode())
+            gamingPreference
+        }
+
+        invalidHideState {
             val vpnPreference: Preference = (findPreference("use_vpn_network")!!)
             val mUseVpnNetwork = AppManager.mBlackBoxLoader.useVpnNetwork()
             vpnPreference.setDefaultValue(mUseVpnNetwork)
@@ -73,6 +79,9 @@ class SettingFragment : PreferenceFragmentCompat() {
                 }
                 "daemon_enable" -> {
                     AppManager.mBlackBoxLoader.invalidDaemonEnable(tmpHide)
+                }
+                "gaming_mode" -> {
+                    AppManager.mBlackBoxLoader.invalidGamingMode(tmpHide)
                 }
                 "use_vpn_network" -> {
                     AppManager.mBlackBoxLoader.invalidUseVpnNetwork(tmpHide)
